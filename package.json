@@ -1,0 +1,25 @@
+{
+  "name": "good-maps-monorepo",
+  "version": "1.0.0",
+  "description": "Good Maps Monorepo - Plateforme SaaS d'activités accessibles (Spring Boot 3 + Angular 19)",
+  "scripts": {
+    "start": "npm --prefix frontend start",
+    "dev": "npm --prefix frontend start",
+    "start:frontend": "npm --prefix frontend start",
+    "start:backend": "backend/mvnw.cmd -f backend/pom.xml spring-boot:run",
+    "build": "npm --prefix frontend run build && backend/mvnw.cmd -f backend/pom.xml package -DskipTests",
+    "build:frontend": "npm --prefix frontend run build",
+    "build:backend": "backend/mvnw.cmd -f backend/pom.xml package -DskipTests",
+    "test:backend": "backend/mvnw.cmd -f backend/pom.xml test",
+    "test:frontend": "npm --prefix frontend test"
+  },
+  "keywords": [
+    "goodmaps",
+    "accessibility",
+    "openstreetmap",
+    "angular",
+    "springboot"
+  ],
+  "author": "Good Maps Team",
+  "license": "MIT"
+}
