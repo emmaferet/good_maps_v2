@@ -1,0 +1,234 @@
+.activity-card-container {
+  background: #FFFFFF;
+  border-radius: 24px 24px 0 0;
+  box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.12);
+  padding: 20px 24px 18px;
+  max-width: 500px;
+  margin: 0 auto;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.card-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+
+  .meta-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    .category-badge {
+      background: #F3F4F6;
+      color: #374151;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 3px 8px;
+      border-radius: 6px;
+    }
+
+    .badge-recommended {
+      background: #FFF0F0;
+      color: #FF5A5F;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 6px;
+      border: 1px solid #FECDD3;
+    }
+
+    .distance-tag {
+      font-size: 12px;
+      color: #9CA3AF;
+      font-weight: 600;
+    }
+  }
+
+  .meta-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    .btn-fav {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: #FFF0F0;
+
+      svg {
+        width: 18px;
+        height: 18px;
+        transition: transform 0.2s ease;
+      }
+
+      &:hover svg {
+        transform: scale(1.15);
+      }
+    }
+
+    .btn-close-card {
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: #F3F4F6;
+      color: #6B7280;
+      font-size: 12px;
+      font-weight: 700;
+
+      &:hover {
+        background: #E5E7EB;
+        color: #111827;
+      }
+    }
+  }
+}
+
+.activity-title {
+  font-size: 22px;
+  font-weight: 800;
+  color: #111827;
+  letter-spacing: -0.3px;
+  margin-bottom: 6px;
+}
+
+.activity-description {
+  font-size: 14px;
+  color: #4B5563;
+  line-height: 1.45;
+  margin-bottom: 12px;
+}
+
+.opening-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+
+  .status-indicator {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #10B981;
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
+  }
+
+  .status-text {
+    font-size: 13px;
+    font-weight: 700;
+    color: #111827;
+  }
+}
+
+.tags-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 16px;
+
+  .tag-pill {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 999px;
+
+    &.tag-pmr {
+      background: #ECFDF5;
+      color: #065F46;
+      border: 1px solid #A7F3D0;
+    }
+
+    &.tag-warning {
+      background: #FFFBEB;
+      color: #92400E;
+      border: 1px solid #FDE68A;
+    }
+
+    &.tag-info {
+      background: #EFF6FF;
+      color: #1E40AF;
+      border: 1px solid #BFDBFE;
+    }
+  }
+}
+
+.actions-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.action-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #FFFFFF;
+  border: 1.5px solid #FF5A5F;
+  border-radius: 16px;
+  padding: 10px 14px;
+  text-align: left;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+  .action-icon {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+
+    svg {
+      width: 28px;
+      height: 28px;
+    }
+  }
+
+  .action-text {
+    display: flex;
+    flex-direction: column;
+
+    .main-label {
+      font-size: 14px;
+      font-weight: 700;
+      color: #FF5A5F;
+      line-height: 1.1;
+    }
+
+    .sub-label {
+      font-size: 12px;
+      color: #FF5A5F;
+      font-weight: 500;
+    }
+  }
+
+  &:hover {
+    background: #FFF0F0;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 90, 95, 0.2);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+.disclaimer-footer {
+  text-align: center;
+  border-top: 1px solid #F3F4F6;
+  padding-top: 10px;
+
+  p {
+    font-size: 11px;
+    color: #9CA3AF;
+    line-height: 1.35;
+  }
+}

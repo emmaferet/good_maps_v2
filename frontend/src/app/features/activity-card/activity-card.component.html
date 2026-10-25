@@ -1,0 +1,100 @@
+<div class="activity-card-container animate-slide-up">
+  
+  <!-- Header de la fiche : Catégorie, Favoris et Fermeture -->
+  <div class="card-meta">
+    <div class="meta-left">
+      <span class="category-badge">{{ activity.category }}</span>
+      @if (activity.recommended) {
+        <span class="badge-recommended">⭐ Recommandé</span>
+      }
+      <span class="distance-tag">{{ activity.distanceMeters }}m</span>
+    </div>
+
+    <div class="meta-right">
+      <!-- Bouton Mettre en favoris (Bonus SaaS) -->
+      <button class="btn-fav" (click)="toggleFavorite()" [class.active]="isFavorite" title="Ajouter aux favoris">
+        <svg viewBox="0 0 24 24" [attr.fill]="isFavorite ? '#FF5A5F' : 'none'" stroke="#FF5A5F" stroke-width="2">
+          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+        </svg>
+      </button>
+
+      <button class="btn-close-card" (click)="close.emit()" aria-label="Fermer la fiche">✕</button>
+    </div>
+  </div>
+
+  <!-- Titre de l'activité conforme à la maquette -->
+  <h2 class="activity-title">{{ activity.name }}</h2>
+
+  <!-- Descriptif contextuel d'accessibilité -->
+  <p class="activity-description">
+    {{ activity.description }}
+  </p>
+
+  <!-- Horaires et état en temps réel -->
+  <div class="opening-status">
+    <span class="status-indicator"></span>
+    <span class="status-text">
+      {{ activity.openingHours ? 'Ouvert : ' + activity.openingHours : 'Ouvert maintenant et jusqu’à 18h' }}
+    </span>
+  </div>
+
+  <!-- Badges d'aménagements vérifiés -->
+  <div class="tags-row">
+    @if (activity.accessibility.wheelchair === 'yes') {
+      <span class="tag-pill tag-pmr">♿ Accès PMR garanti</span>
+    } @else if (activity.accessibility.wheelchair === 'limited') {
+      <span class="tag-pill tag-warning">♿ PMR avec aide</span>
+    }
+    @if (activity.accessibility.toiletsWheelchair) {
+      <span class="tag-pill tag-pmr">WC PMR</span>
+    }
+    @if (activity.accessibility.tactilePaving) {
+      <span class="tag-pill tag-info">👁️ Bandes podotactiles</span>
+    }
+    @if (activity.accessibility.hearingLoop) {
+      <span class="tag-pill tag-info">🦻 Boucle magnétique</span>
+    }
+  </div>
+
+  <!-- Boutons d'action immédiate conformes à la maquette 3 -->
+  <div class="actions-row">
+    
+    <!-- Action 1 : Réservez en ligne -->
+    <button class="action-btn btn-booking" (click)="bookOnline()">
+      <span class="action-icon circle-plus">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#FF5A5F" stroke-width="2.5" stroke-linecap="round">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="12" y1="8" x2="12" y2="16"/>
+          <line x1="8" y1="12" x2="16" y2="12"/>
+        </svg>
+      </span>
+      <div class="action-text">
+        <span class="main-label">Réservez</span>
+        <span class="sub-label">en ligne</span>
+      </div>
+    </button>
+
+    <!-- Action 2 : Appelez maintenant -->
+    <button class="action-btn btn-call" (click)="callEstablishment()">
+      <span class="action-icon circle-play">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#FF5A5F" stroke-width="2.5" stroke-linecap="round">
+          <circle cx="12" cy="12" r="10"/>
+          <polygon points="10 8 16 12 10 16 10 8" fill="#FF5A5F"/>
+        </svg>
+      </span>
+      <div class="action-text">
+        <span class="main-label">Appelez</span>
+        <span class="sub-label">maintenant</span>
+      </div>
+    </button>
+
+  </div>
+
+  <!-- Avertissement légal et source conforme à la maquette 3 -->
+  <div class="disclaimer-footer">
+    <p>
+      Good Maps s'appuie sur les données OpenStreetMap. Envisagez de vérifier les informations importantes auprès de l'établissement.
+    </p>
+  </div>
+
+</div>

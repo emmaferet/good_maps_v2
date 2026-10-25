@@ -1,0 +1,45 @@
+<div class="modal-backdrop animate-fade-in" (click)="close.emit()">
+  <div class="modal-card animate-slide-up" (click)="$event.stopPropagation()" role="dialog" aria-modal="true" aria-labelledby="info-title">
+    
+    <button class="btn-close" (click)="close.emit()" aria-label="Fermer la modale">✕</button>
+
+    <div class="modal-header">
+      <div class="info-icon-badge">ℹ️</div>
+      <h2 id="info-title" class="title">À propos de Good Maps</h2>
+      <p class="subtitle">Plateforme cartographique d'activités accessibles & inclusives</p>
+    </div>
+
+    <div class="modal-body">
+      <section class="info-section">
+        <h3>🎯 Notre Mission</h3>
+        <p>
+          Good Maps recense et qualifie en temps réel les lieux et activités adaptés aux personnes en situation de handicap :
+          mobilité réduite (PMR), déficience visuelle, auditive et cognitive.
+        </p>
+      </section>
+
+      <section class="info-section">
+        <h3>🗺️ Source Libre OpenStreetMap</h3>
+        <p>
+          Les données géographiques et d'accessibilité proviennent directement d'<strong>OpenStreetMap</strong> via l'API Overpass.
+          Les critères analysés incluent les tags <code>wheelchair=*</code>, <code>tactile_paving=*</code>, <code>toilets:wheelchair=*</code> et <code>hearing_loop=*</code>.
+        </p>
+      </section>
+
+      <section class="info-section">
+        <h3>🛡️ Sécurité & Confidentialité</h3>
+        <p>
+          Vos préférences et favoris sont mémorisés localement sur votre appareil (LocalStorage).
+          Toutes les requêtes vers l'API sont protégées par un service proxy avec cache Caffeine anti-quota.
+        </p>
+      </section>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn-primary" (click)="close.emit()">
+        J'ai compris
+      </button>
+    </div>
+
+  </div>
+</div>

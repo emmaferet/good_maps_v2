@@ -1,0 +1,42 @@
+<header class="app-header">
+  <!-- Bouton Filtres / Réglages (Gauche) conforme à la maquette -->
+  <button class="header-action-btn" (click)="onFiltersClick()" aria-label="Modifier mes options d'accessibilité">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+      <line x1="4" y1="21" x2="4" y2="14"></line>
+      <line x1="4" y1="10" x2="4" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="12"></line>
+      <line x1="12" y1="8" x2="12" y2="3"></line>
+      <line x1="20" y1="21" x2="20" y2="16"></line>
+      <line x1="20" y1="12" x2="20" y2="3"></line>
+      <line x1="1" y1="14" x2="7" y2="14"></line>
+      <line x1="9" y1="8" x2="15" y2="8"></line>
+      <line x1="17" y1="16" x2="23" y2="16"></line>
+    </svg>
+  </button>
+
+  <!-- Logo Good Maps Central conforme à la maquette -->
+  <div class="header-logo-group">
+    <div class="logo-mark">
+      <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="50" cy="42" r="32" stroke="#111827" stroke-width="8" stroke-linecap="round"/>
+        <path d="M68 62L82 78" stroke="#111827" stroke-width="8" stroke-linecap="round"/>
+        <path d="M50 24C43.3726 24 38 29.3726 38 36C38 44.5 50 56 50 56C50 56 62 44.5 62 36C62 29.3726 56.6274 24 50 24Z" 
+              fill="#FF5A5F" />
+        <circle cx="50" cy="35" r="4.5" fill="#FFFFFF"/>
+      </svg>
+    </div>
+    <div class="logo-brand">
+      <span class="text-good">GOOD</span>
+      <span class="text-maps">MAPS</span>
+    </div>
+  </div>
+
+  <!-- Bouton Information (i) (Droite) conforme à la maquette -->
+  <button class="header-action-btn" (click)="onInfoClick()" aria-label="À propos de Good Maps et OpenStreetMap">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+      <circle cx="12" cy="12" r="10"></circle>
+      <line x1="12" y1="16" x2="12" y2="12"></line>
+      <line x1="12" y1="8" x2="12.01" y2="8"></line>
+    </svg>
+  </button>
+</header>

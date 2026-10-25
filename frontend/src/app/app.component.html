@@ -1,6 +1,6 @@
 <main class="app-container">
   
-  <!-- Écran 1 : Splash Screen & Chargement de l'application -->
+  <!-- Écran 1 : Splash Screen & Chargement -->
   @if (showSplash()) {
     <app-splash (completed)="onSplashFinished()"></app-splash>
   }
@@ -8,54 +8,78 @@
   <!-- Écran 2 : Formulaire Bienvenue & Options d'accessibilité (Modale Onboarding) -->
   @if (showWelcomeModal()) {
     <app-welcome-modal 
-      (completed)="onWelcomeFormCompleted($event)" 
-      (closed)="onWelcomeModalClosed()">
+      (completed)="onWelcomeCompleted($event)" 
+      (closed)="showWelcomeModal.set(false)">
     </app-welcome-modal>
   }
 
-  <!-- Conteneur Principal (Prêt pour la carte Leaflet et l'IHM du Jalon 4) -->
-  <div class="main-layout" [class.blurred]="showWelcomeModal()">
-    <!-- Header d'aperçu temporaire jusqu'au Jalon 4 -->
-    <header class="app-header">
-      <button class="btn-icon-circle" (click)="openSettingsModal()" title="Modifier mes options d'accessibilité">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <line x1="4" y1="21" x2="4" y2="14"></line>
-          <line x1="4" y1="10" x2="4" y2="3"></line>
-          <line x1="12" y1="21" x2="12" y2="12"></line>
-          <line x1="12" y1="8" x2="12" y2="3"></line>
-          <line x1="20" y1="21" x2="20" y2="16"></line>
-          <line x1="20" y1="12" x2="20" y2="3"></line>
-          <line x1="1" y1="14" x2="7" y2="14"></line>
-          <line x1="9" y1="8" x2="15" y2="8"></line>
-          <line x1="17" y1="16" x2="23" y2="16"></line>
-        </svg>
-      </button>
+  <!-- Modale Information (i) -->
+  @if (showInfoModal()) {
+    <app-info-modal (close)="closeInfoModal()"></app-info-modal>
+  }
 
-      <div class="logo-text">
-        <span class="good">GOOD</span>
-        <span class="maps">MAPS</span>
-      </div>
+  <!-- Écran 3 : Vue Principale Complète (Header, Carte Leaflet, Suggestions, Fiche Activité) -->
+  <div class="main-layout" [class.blurred]="showWelcomeModal() || showInfoModal()">
+    
+    <!-- 1. Header supérieur conforme à la maquette -->
+    <app-header 
+      (openFilters)="openFiltersModal()" 
+      (openInfo)="openInfoModal()">
+    </app-header>
 
-      <button class="btn-icon-circle" (click)="openSettingsModal()" title="Informations">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <circle cx="12" cy="12" r="10"></circle>
-          <line x1="12" y1="16" x2="12" y2="12"></line>
-          <line x1="12" y1="8" x2="12.01" y2="8"></line>
-        </svg>
-      </button>
-    </header>
+    <!-- 2. Zone Cartographique Interactive -->
+    <div class="map-view-container">
+      <app-map 
+        [centerLat]="centerLat" 
+        [centerLon]="centerLon" 
+        [activities]="activityService.currentActivities()" 
+        [selectedActivity]="activityService.selectedActivity()"
+        (activitySelected)="onActivitySelected($event)">
+      </app-map>
 
-    <!-- Zone principale d'affichage -->
-    <div class="stage-placeholder animate-fade-in">
-      <div class="card-status">
-        <div class="status-badge">Jalon 3 Opérationnel</div>
-        <h2>Écran d'Accueil & Formulaire d'Onboarding validés</h2>
-        <p>Les préférences sélectionnées : <strong>{{ currentLocationName }}</strong></p>
-        <button class="btn-secondary" (click)="openSettingsModal()">
-          ⚙️ Réouvrir le formulaire d'options
+      <!-- Indicateur de chargement réseau discret -->
+      @if (activityService.isLoading()) {
+        <div class="loading-overlay">
+          <div class="loading-pill">
+            <span class="spinner-dot"></span>
+            <span>Interrogation d'OpenStreetMap...</span>
+          </div>
+        </div>
+      }
+
+      <!-- Message d'erreur éventuel -->
+      @if (activityService.errorMessage()) {
+        <div class="error-banner">
+          <span>⚠️ {{ activityService.errorMessage() }}</span>
+        </div>
+      }
+
+      <!-- 3. Bouton central rouge corail "Obtenir des suggestions" conforme au visuel 3 -->
+      <div class="suggestions-button-container">
+        <button class="btn-suggestions" 
+                (click)="onGetSuggestions()" 
+                [disabled]="activityService.isLoading()"
+                aria-label="Obtenir les meilleures suggestions d'activités accessibles">
+          @if (activityService.isLoading()) {
+            <span class="btn-spinner"></span>
+            <span>Recherche en cours...</span>
+          } @else {
+            Obtenir des suggestions
+          }
         </button>
       </div>
     </div>
+
+    <!-- 4. Fiche Descriptive Contextuelle (Bottom Sheet conforme au visuel 3) -->
+    @if (activityService.selectedActivity(); as selected) {
+      <div class="bottom-sheet-wrapper">
+        <app-activity-card 
+          [activity]="selected" 
+          (close)="onCloseActivityCard()">
+        </app-activity-card>
+      </div>
+    }
+
   </div>
 
 </main>
