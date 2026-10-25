@@ -6,11 +6,11 @@
     "start": "npm --prefix frontend start",
     "dev": "npm --prefix frontend start",
     "start:frontend": "npm --prefix frontend start",
-    "start:backend": "backend/mvnw.cmd -f backend/pom.xml spring-boot:run",
-    "build": "npm --prefix frontend run build && backend/mvnw.cmd -f backend/pom.xml package -DskipTests",
+    "start:backend": "cd backend && mvnw.cmd spring-boot:run",
+    "build": "npm --prefix frontend run build && cd backend && mvnw.cmd package -DskipTests",
     "build:frontend": "npm --prefix frontend run build",
-    "build:backend": "backend/mvnw.cmd -f backend/pom.xml package -DskipTests",
-    "test:backend": "backend/mvnw.cmd -f backend/pom.xml test",
+    "build:backend": "cd backend && mvnw.cmd package -DskipTests",
+    "test:backend": "cd backend && mvnw.cmd test",
     "test:frontend": "npm --prefix frontend test"
   },
   "keywords": [
