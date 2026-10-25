@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ACCESSIBILITY_PROFILE_OPTIONS, AccessibilityProfile } from '../../core/models/accessibility-profile.model';
 import { CATEGORY_OPTIONS, ActivityCategory } from '../../core/models/activity-category.model';
-import { PreferencesService } from '../../core/services/preferences.service';
+import { PreferencesService, SearchHistoryItem } from '../../core/services/preferences.service';
 import { ActivityService } from '../../core/services/activity.service';
 import { GeocodeResult } from '../../core/models/activity.model';
 
@@ -33,6 +33,9 @@ export class WelcomeModalComponent {
   readonly profileOptions = ACCESSIBILITY_PROFILE_OPTIONS;
   readonly categoryOptions = CATEGORY_OPTIONS;
 
+  // Signal réactif de l'historique récent
+  readonly recentSearches = this.preferences.searchHistory;
+
   // État local du formulaire
   selectedProfile = this.preferences.selectedProfile();
   selectedCategory = this.preferences.selectedCategory();
@@ -45,6 +48,15 @@ export class WelcomeModalComponent {
   geocodeSuggestions = signal<GeocodeResult[]>([]);
   isGeocoding = signal<boolean>(false);
   isLocating = signal<boolean>(false);
+
+  applyHistoryItem(item: SearchHistoryItem): void {
+    this.locationInput = item.query;
+    this.selectedLat = item.lat;
+    this.selectedLon = item.lon;
+    this.selectedProfile = item.profile;
+    this.selectedCategory = item.category;
+    this.geocodeSuggestions.set([]);
+  }
 
   onProfileSelect(profile: AccessibilityProfile): void {
     this.selectedProfile = profile;

@@ -1,0 +1,92 @@
+<div class="modal-backdrop animate-fade-in" (click)="close.emit()">
+  <div class="modal-card animate-slide-up" (click)="$event.stopPropagation()" role="dialog" aria-modal="true" aria-labelledby="fav-title">
+    
+    <!-- Bouton de fermeture croix ✕ -->
+    <button class="btn-close" (click)="close.emit()" aria-label="Fermer mes favoris">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
+
+    <!-- En-tête -->
+    <div class="modal-header">
+      <div class="header-icon-heart">
+        <svg viewBox="0 0 24 24" fill="#FF5A5F" stroke="#FF5A5F" stroke-width="2">
+          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+        </svg>
+      </div>
+      <h2 id="fav-title" class="title">Mes Favoris</h2>
+      <p class="subtitle">
+        {{ favorites.length }} {{ favorites.length > 1 ? 'activités enregistrées' : 'activité enregistrée' }}
+      </p>
+    </div>
+
+    <!-- Liste des favoris ou état vide -->
+    <div class="modal-body">
+      @if (favorites.length === 0) {
+        <div class="empty-state">
+          <div class="empty-icon">📍</div>
+          <h3>Aucun favori pour le moment</h3>
+          <p>
+            Parcourez la carte et cliquez sur l'icône cœur d'une activité pour la retrouver instantanément ici, même sans connexion !
+          </p>
+          <button class="btn-primary" (click)="close.emit()">
+            Découvrir la carte
+          </button>
+        </div>
+      } @else {
+        <div class="favorites-list">
+          @for (item of favorites; track item.id) {
+            <div class="favorite-item-card" (click)="onSelect(item)">
+              <div class="item-content">
+                <div class="item-header">
+                  <span class="category-badge">{{ item.category }}</span>
+                  @if (item.accessibility.wheelchair === 'yes') {
+                    <span class="badge-access">♿ PMR</span>
+                  }
+                  <span class="item-distance">{{ item.distanceMeters }}m</span>
+                </div>
+
+                <h3 class="item-name">{{ item.name }}</h3>
+
+                @if (item.contact.address) {
+                  <p class="item-address">📍 {{ item.contact.address }}</p>
+                }
+
+                <div class="item-actions">
+                  <button type="button" class="btn-action view-map" (click)="onSelect(item)" title="Voir sur la carte">
+                    <span>🗺️</span>
+                    <span>Voir sur la carte</span>
+                  </button>
+
+                  @if (item.contact.phone) {
+                    <button type="button" class="btn-action call" (click)="callEstablishment(item.contact.phone, $event)" title="Appeler">
+                      <span>📞</span>
+                    </button>
+                  }
+
+                  <button type="button" class="btn-action remove" (click)="removeFavorite(item, $event)" title="Retirer des favoris">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <polyline points="3 6 5 6 21 6"></polyline>
+                      <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+      }
+    </div>
+
+    @if (favorites.length > 0) {
+      <div class="modal-footer">
+        <button class="btn-primary" (click)="close.emit()">
+          Retour à la carte
+        </button>
+      </div>
+    }
+
+  </div>
+</div>

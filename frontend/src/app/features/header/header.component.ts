@@ -1,5 +1,6 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { PreferencesService } from '../../core/services/preferences.service';
 
 @Component({
   selector: 'app-header',
@@ -9,8 +10,11 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent {
+  readonly preferences = inject(PreferencesService);
+
   @Output() openFilters = new EventEmitter<void>();
   @Output() openInfo = new EventEmitter<void>();
+  @Output() openFavorites = new EventEmitter<void>();
 
   onFiltersClick(): void {
     this.openFilters.emit();
@@ -19,4 +23,9 @@ export class HeaderComponent {
   onInfoClick(): void {
     this.openInfo.emit();
   }
+
+  onFavoritesClick(): void {
+    this.openFavorites.emit();
+  }
 }
+

@@ -210,6 +210,47 @@
   }
 }
 
+.recent-searches {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+  flex-wrap: wrap;
+
+  .recent-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: #9CA3AF;
+  }
+
+  .recent-chips {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .chip-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 8px;
+    background: #F3F4F6;
+    border: 1px solid #E5E7EB;
+    border-radius: 9999px;
+    font-size: 11px;
+    font-weight: 500;
+    color: #4B5563;
+    transition: all 0.15s ease;
+    cursor: pointer;
+
+    &:hover {
+      background: #FFF0F0;
+      border-color: #FF5A5F;
+      color: #D4363B;
+    }
+  }
+}
+
 .radius-header {
   display: flex;
   justify-content: space-between;

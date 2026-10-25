@@ -75,6 +75,24 @@
             }
           </ul>
         }
+
+        <!-- Puces d'historique de recherche récent (Bonus Jalon 5) -->
+        @if (recentSearches().length > 0) {
+          <div class="recent-searches">
+            <span class="recent-label">Récents :</span>
+            <div class="recent-chips">
+              @for (item of recentSearches().slice(0, 3); track item.timestamp) {
+                <button type="button" 
+                        class="chip-item" 
+                        (click)="applyHistoryItem(item)"
+                        title="Recharger cette recherche">
+                  <span>📍</span>
+                  <span>{{ item.query.split(',')[0] }}</span>
+                </button>
+              }
+            </div>
+          </div>
+        }
       </div>
 
       <!-- Champ 3 : Type d'activités -->

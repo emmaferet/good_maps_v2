@@ -18,13 +18,29 @@
     <app-info-modal (close)="closeInfoModal()"></app-info-modal>
   }
 
+  <!-- Modale Favoris (Bonus Jalon 5) -->
+  @if (showFavoritesModal()) {
+    <app-favorites-modal 
+      (close)="closeFavoritesModal()" 
+      (selectFavorite)="onSelectFavorite($event)">
+    </app-favorites-modal>
+  }
+
+  <!-- Toast Notification interactive -->
+  @if (toastMessage(); as msg) {
+    <div class="floating-toast animate-slide-up">
+      <span>{{ msg }}</span>
+    </div>
+  }
+
   <!-- Écran 3 : Vue Principale Complète (Header, Carte Leaflet, Suggestions, Fiche Activité) -->
-  <div class="main-layout" [class.blurred]="showWelcomeModal() || showInfoModal()">
+  <div class="main-layout" [class.blurred]="showWelcomeModal() || showInfoModal() || showFavoritesModal()">
     
     <!-- 1. Header supérieur conforme à la maquette -->
     <app-header 
       (openFilters)="openFiltersModal()" 
-      (openInfo)="openInfoModal()">
+      (openInfo)="openInfoModal()"
+      (openFavorites)="openFavoritesModal()">
     </app-header>
 
     <!-- 2. Zone Cartographique Interactive -->
