@@ -56,10 +56,10 @@ export class MapComponent implements OnInit, OnChanges, OnDestroy {
       zoomControl: false // Déplacé pour un rendu mobile épuré
     });
 
-    // Tuiles cartographiques claires et lisibles (CartoDB Voyager)
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+    // Tuiles cartographiques libres et gratuites sans clé API requise (OpenStreetMap France)
+    L.tileLayer('https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', {
       maxZoom: 19,
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/" target="_blank" rel="noopener noreferrer">CARTO</a>'
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a> contributors &copy; <a href="https://openstreetmap.fr/" target="_blank" rel="noopener noreferrer">OSM France</a>'
     }).addTo(this.map);
 
     // Contrôles de zoom positionnés en haut à droite

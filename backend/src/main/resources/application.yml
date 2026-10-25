@@ -18,7 +18,7 @@ goodmaps:
     allowed-origins: "${CORS_ALLOWED_ORIGINS:http://localhost:4200,http://localhost:80,http://localhost}"
   osm:
     nominatim-url: "${OSM_NOMINATIM_BASE_URL:https://nominatim.openstreetmap.org}"
-    overpass-url: "${OSM_OVERPASS_BASE_URL:https://overpass-api.de/api/interpreter}"
+    overpass-url: "${OSM_OVERPASS_BASE_URL:https://overpass.openstreetmap.fr/api/interpreter}"
     user-agent: "${OSM_USER_AGENT:GoodMapsAccessibilityPlatform/1.0 (contact: support@goodmaps.local)}"
     connect-timeout-ms: 5000
     read-timeout-ms: 15000

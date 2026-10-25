@@ -26,14 +26,22 @@ public class OverpassClient {
     private static final Logger log = LoggerFactory.getLogger(OverpassClient.class);
 
     private final WebClient webClient;
-    private final String overpassUrl;
+    private final List<String> mirrorUrls;
 
     public OverpassClient(
             WebClient osmWebClient,
-            @Value("${goodmaps.osm.overpass-url:https://overpass-api.de/api/interpreter}") String overpassUrl
+            @Value("${goodmaps.osm.overpass-url:https://overpass.openstreetmap.fr/api/interpreter}") String overpassUrl
     ) {
         this.webClient = osmWebClient;
-        this.overpassUrl = overpassUrl;
+        // Liste ordonnée de miroirs avec priorité à l'instance configurée
+        java.util.LinkedHashSet<String> mirrors = new java.util.LinkedHashSet<>();
+        if (overpassUrl != null && !overpassUrl.isBlank()) {
+            mirrors.add(overpassUrl.trim());
+        }
+        mirrors.add("https://overpass.openstreetmap.fr/api/interpreter");
+        mirrors.add("https://overpass.kumi.systems/api/interpreter");
+        mirrors.add("https://overpass-api.de/api/interpreter");
+        this.mirrorUrls = new java.util.ArrayList<>(mirrors);
     }
 
     @Cacheable(value = "activitiesCache", key = "#lat + '_' + #lon + '_' + #radius + '_' + #category.name()")
@@ -41,27 +49,32 @@ public class OverpassClient {
         String query = buildOverpassQl(lat, lon, radius, category);
         log.info("Appel Overpass API pour lat={}, lon={}, rayon={}m, catégorie={} (Cache MISS)", lat, lon, radius, category);
 
-        try {
-            OverpassResponse response = webClient.post()
-                    .uri(overpassUrl)
-                    .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                    .body(BodyInserters.fromFormData("data", query))
-                    .retrieve()
-                    .bodyToMono(OverpassResponse.class)
-                    .block();
+        Exception lastException = null;
 
-            if (response == null || response.elements() == null) {
-                log.warn("Réponse Overpass vide pour la zone [{}, {}]", lat, lon);
-                return List.of();
+        for (String url : mirrorUrls) {
+            try {
+                log.info("Tentative de requête sur le serveur Overpass : {}", url);
+                OverpassResponse response = webClient.post()
+                        .uri(url)
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                        .body(BodyInserters.fromFormData("data", query))
+                        .retrieve()
+                        .bodyToMono(OverpassResponse.class)
+                        .block();
+
+                if (response != null && response.elements() != null) {
+                    log.info("Succès Overpass [{}] : {} éléments bruts reçus.", url, response.elements().size());
+                    return response.elements();
+                }
+            } catch (Exception ex) {
+                log.warn("Miroir Overpass [{}] indisponible ou en erreur : {}. Basculement automatique...", url, ex.getMessage());
+                lastException = ex;
             }
-
-            log.info("Overpass a retourné {} éléments bruts.", response.elements().size());
-            return response.elements();
-
-        } catch (Exception ex) {
-            log.error("Échec de la requête Overpass : {}", ex.getMessage());
-            throw new OsmServiceException("Échec de la récupération des POIs Overpass: " + ex.getMessage(), ex);
         }
+
+        log.error("Tous les miroirs Overpass ont échoué pour [{}, {}].", lat, lon);
+        throw new OsmServiceException("Échec de la récupération des POIs Overpass sur tous les miroirs: " 
+                + (lastException != null ? lastException.getMessage() : "Aucune réponse valide"), lastException);
     }
 
     /**
@@ -111,7 +124,7 @@ public class OverpassClient {
             }
         }
 
-        sb.append(");\nout center body qt 60;");
+        sb.append(");\nout body center qt 60;");
         return sb.toString();
     }
 }
