@@ -1,0 +1,117 @@
+name: Good Maps CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
+      - develop
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # ============================================================================
+  # 1. Job Backend : Build & Tests Unitaires / Intégration Spring Boot 3 & Java 21
+  # ============================================================================
+  backend-ci:
+    name: Backend (Java 21 LTS & Spring Boot 3)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./backend
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Java 21 Temurin JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: 'maven'
+
+      - name: Ensure Maven Wrapper execution rights
+        run: chmod +x ./mvnw
+
+      - name: Run Maven Build & JUnit 5 Tests
+        run: ./mvnw -B clean verify
+
+      - name: Publish Test Results Artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: backend-surefire-reports
+          path: backend/target/surefire-reports/
+          retention-days: 7
+
+  # ============================================================================
+  # 2. Job Frontend : Build & Validation Bundle Angular 19 Standalone
+  # ============================================================================
+  frontend-ci:
+    name: Frontend (Angular 19 & Node 22)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./frontend
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 22.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build Angular Production Distribution
+        run: npm run build -- --configuration production
+
+      - name: Publish Frontend Distribution Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontend-production-dist
+          path: frontend/dist/good-maps-frontend/browser/
+          retention-days: 7
+
+  # ============================================================================
+  # 3. Job Docker : Validation de la Conteneurisation & Compose Specification
+  # ============================================================================
+  docker-validation:
+    name: Docker & Compose Validation
+    runs-on: ubuntu-latest
+    needs: [backend-ci, frontend-ci]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Validate Docker Compose Configuration
+        run: docker compose config
+
+      - name: Build Backend Docker Image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./backend
+          push: false
+          tags: goodmaps-backend:test
+
+      - name: Build Frontend Docker Image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./frontend
+          push: false
+          tags: goodmaps-frontend:test
