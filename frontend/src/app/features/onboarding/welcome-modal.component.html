@@ -1,0 +1,126 @@
+<div class="modal-backdrop animate-fade-in" (click)="close()">
+  <div class="modal-card animate-slide-up" (click)="$event.stopPropagation()" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    
+    <!-- Bouton de fermeture croix (✕) conforme à la maquette -->
+    <button class="btn-close" (click)="close()" aria-label="Fermer le formulaire">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
+
+    <!-- En-tête de bienvenue -->
+    <div class="modal-header">
+      <h2 id="modal-title" class="title">Bienvenue !</h2>
+      <p class="subtitle">
+        Pour mieux personnaliser vos suggestions d'activités, merci de remplir ce formulaire.
+      </p>
+    </div>
+
+    <!-- Corps du formulaire -->
+    <div class="form-body">
+      
+      <!-- Champ 1 : Profil d'accessibilité -->
+      <div class="form-group">
+        <label class="form-label" for="profile-select">Profil d'accessibilité</label>
+        <div class="options-grid">
+          @for (opt of profileOptions; track opt.id) {
+            <button type="button" 
+                    class="option-pill"
+                    [class.active]="selectedProfile === opt.id"
+                    (click)="onProfileSelect(opt.id)">
+              <span class="icon">{{ opt.icon }}</span>
+              <span class="label">{{ opt.label }}</span>
+            </button>
+          }
+        </div>
+      </div>
+
+      <!-- Champ 2 : Localisation / Ville cible -->
+      <div class="form-group">
+        <label class="form-label" for="location-input">Ville ou adresse cible</label>
+        <div class="location-input-wrapper">
+          <input id="location-input" 
+                 type="text" 
+                 class="form-control"
+                 [ngModel]="locationInput"
+                 (ngModelChange)="onLocationInputChange($event)"
+                 placeholder="Ex: Paris, Lyon, Bordeaux, Lille..." 
+                 autocomplete="off"/>
+          
+          <button type="button" 
+                  class="btn-gps" 
+                  (click)="useCurrentLocation()" 
+                  title="Utiliser ma position actuelle"
+                  [disabled]="isLocating()">
+            @if (isLocating()) {
+              <span class="spinner-mini"></span>
+            } @else {
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="3"></circle>
+                <path d="M12 2v3m0 14v3M2 12h3m14 0h3"></path>
+              </svg>
+            }
+          </button>
+        </div>
+
+        <!-- Suggestions Nominatim en direct -->
+        @if (geocodeSuggestions().length > 0) {
+          <ul class="suggestions-dropdown" role="listbox">
+            @for (sugg of geocodeSuggestions(); track sugg.displayName) {
+              <li class="suggestion-item" (click)="selectSuggestion(sugg)" role="option">
+                <span class="sugg-icon">📍</span>
+                <span class="sugg-text">{{ sugg.displayName }}</span>
+              </li>
+            }
+          </ul>
+        }
+      </div>
+
+      <!-- Champ 3 : Type d'activités -->
+      <div class="form-group">
+        <label class="form-label">Type d'activités</label>
+        <div class="options-grid categories">
+          @for (cat of categoryOptions; track cat.id) {
+            <button type="button" 
+                    class="option-pill"
+                    [class.active]="selectedCategory === cat.id"
+                    (click)="onCategorySelect(cat.id)">
+              <span class="icon">{{ cat.icon }}</span>
+              <span class="label">{{ cat.label }}</span>
+            </button>
+          }
+        </div>
+      </div>
+
+      <!-- Champ 4 : Rayon de recherche -->
+      <div class="form-group">
+        <div class="radius-header">
+          <label class="form-label">Rayon de recherche</label>
+          <span class="radius-value">{{ (selectedRadius / 1000).toFixed(0) }} km</span>
+        </div>
+        <input type="range" 
+               class="radius-slider"
+               min="1000" 
+               max="15000" 
+               step="1000"
+               [(ngModel)]="selectedRadius"/>
+        <div class="radius-markers">
+          <span>1 km</span>
+          <span>5 km</span>
+          <span>10 km</span>
+          <span>15 km</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Bouton d'action principal rouge corail conforme à la maquette -->
+    <div class="modal-footer">
+      <button class="btn-primary" (click)="submit()">
+        Passer à la carte
+      </button>
+    </div>
+
+  </div>
+</div>

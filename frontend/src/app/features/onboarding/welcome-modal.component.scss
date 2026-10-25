@@ -1,0 +1,256 @@
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(17, 24, 39, 0.45);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9998;
+  padding: 16px;
+}
+
+.modal-card {
+  position: relative;
+  background: #FFFFFF;
+  width: 100%;
+  max-width: 440px;
+  max-height: 90vh;
+  border-radius: 24px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.16);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.btn-close {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  color: #6B7280;
+  background: #F3F4F6;
+  transition: all 0.2s ease;
+  z-index: 10;
+
+  &:hover {
+    background: #E5E7EB;
+    color: #111827;
+  }
+
+  svg {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+.modal-header {
+  padding: 24px 24px 12px;
+  text-align: center;
+
+  .title {
+    font-size: 24px;
+    font-weight: 800;
+    color: #111827;
+    margin-bottom: 6px;
+  }
+
+  .subtitle {
+    font-size: 13px;
+    color: #4B5563;
+    line-height: 1.4;
+  }
+}
+
+.form-body {
+  padding: 12px 24px 20px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  .form-label {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #6B7280;
+  }
+}
+
+.options-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+
+  &.categories {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.option-pill {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  background: #F3F4F6;
+  border: 1.5px solid transparent;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #374151;
+  transition: all 0.2s ease;
+  text-align: left;
+
+  .icon {
+    font-size: 14px;
+  }
+
+  &:hover {
+    background: #E5E7EB;
+  }
+
+  &.active {
+    background: #FFF0F0;
+    border-color: #FF5A5F;
+    color: #D4363B;
+  }
+}
+
+.location-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  .form-control {
+    width: 100%;
+    padding-right: 42px;
+    height: 44px;
+    background: #F3F4F6;
+    border: 1px solid #E5E7EB;
+    border-radius: 12px;
+    font-size: 14px;
+
+    &:focus {
+      background: #FFFFFF;
+      border-color: #FF5A5F;
+    }
+  }
+
+  .btn-gps {
+    position: absolute;
+    right: 8px;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #FF5A5F;
+    border-radius: 8px;
+
+    &:hover {
+      background: #FFF0F0;
+    }
+
+    svg {
+      width: 18px;
+      height: 18px;
+    }
+  }
+}
+
+.suggestions-dropdown {
+  list-style: none;
+  background: #FFFFFF;
+  border: 1px solid #E5E7EB;
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
+  max-height: 160px;
+  overflow-y: auto;
+  margin-top: 4px;
+  padding: 4px 0;
+
+  .suggestion-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 13px;
+    color: #374151;
+
+    &:hover {
+      background: #F3F4F6;
+      color: #111827;
+    }
+
+    .sugg-icon {
+      font-size: 14px;
+    }
+
+    .sugg-text {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+}
+
+.radius-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .radius-value {
+    font-size: 13px;
+    font-weight: 700;
+    color: #FF5A5F;
+  }
+}
+
+.radius-slider {
+  width: 100%;
+  accent-color: #FF5A5F;
+  cursor: pointer;
+}
+
+.radius-markers {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: #9CA3AF;
+  margin-top: 2px;
+}
+
+.modal-footer {
+  padding: 16px 24px 24px;
+  background: #FFFFFF;
+  border-top: 1px solid #F3F4F6;
+}
+
+.spinner-mini {
+  width: 16px;
+  height: 16px;
+  border: 2px solid #FF5A5F;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
