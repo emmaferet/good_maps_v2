@@ -1,0 +1,22 @@
+server:
+  port: 0
+
+spring:
+  application:
+    name: good-maps-backend-test
+  cache:
+    type: caffeine
+
+goodmaps:
+  cors:
+    allowed-origins: "*"
+  osm:
+    nominatim-url: https://nominatim.openstreetmap.org
+    overpass-url: https://overpass-api.de/api/interpreter
+    user-agent: GoodMapsTestPlatform/1.0
+    connect-timeout-ms: 2000
+    read-timeout-ms: 5000
+  cache:
+    geocoding-ttl-hours: 1
+    activities-ttl-minutes: 5
+    max-size: 100
