@@ -69,6 +69,20 @@ public class GlobalExceptionHandler {
         return problem;
     }
 
+    @ExceptionHandler(org.springframework.web.servlet.resource.NoResourceFoundException.class)
+    public ProblemDetail handleNoResourceFound(org.springframework.web.servlet.resource.NoResourceFoundException ex) {
+        log.warn("Ressource non trouvée : /{}", ex.getResourcePath());
+
+        ProblemDetail problem = ProblemDetail.forStatusAndDetail(
+                HttpStatus.NOT_FOUND,
+                "La ressource demandée n'existe pas : /" + ex.getResourcePath()
+        );
+        problem.setTitle("Ressource non trouvée");
+        problem.setType(URI.create("https://goodmaps.app/errors/not-found"));
+        problem.setProperty("timestamp", Instant.now());
+        return problem;
+    }
+
     @ExceptionHandler(Exception.class)
     public ProblemDetail handleGenericException(Exception ex) {
         log.error("Une erreur inattendue est survenue : {}", ex.getMessage(), ex);
