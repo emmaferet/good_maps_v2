@@ -1,0 +1,113 @@
+# =============================================================================
+# Root .gitignore for Good Maps Monorepo (Spring Boot + Angular)
+# =============================================================================
+
+# -----------------------------------------------------------------------------
+# Environment & Secrets
+# -----------------------------------------------------------------------------
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+*.p12
+
+# -----------------------------------------------------------------------------
+# Operating Systems
+# -----------------------------------------------------------------------------
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+[Dd]esktop.ini
+
+# -----------------------------------------------------------------------------
+# IDEs & Editors
+# -----------------------------------------------------------------------------
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# VS Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+
+# Eclipse
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+# NetBeans
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.built-jar-path
+
+# Other editors
+*.sublime-project
+*.sublime-workspace
+*.swp
+*~
+*.bak
+
+# -----------------------------------------------------------------------------
+# Java & Maven (Backend)
+# -----------------------------------------------------------------------------
+backend/target/
+**/target/
+*.class
+*.log
+backend/*.log
+backend/logs/
+
+# Maven Wrapper
+!backend/.mvn/wrapper/maven-wrapper.jar
+!backend/.mvn/wrapper/maven-wrapper.properties
+
+# Crash logs
+hs_err_pid*
+replay_pid*
+
+# -----------------------------------------------------------------------------
+# Node & Angular (Frontend)
+# -----------------------------------------------------------------------------
+frontend/node_modules/
+**/node_modules/
+frontend/.angular/
+**/.angular/
+frontend/dist/
+**/dist/
+frontend/.sass-cache/
+
+# NPM / Yarn / PNPM logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Test & Coverage
+coverage/
+frontend/coverage/
+*.lcov
+.nyc_output
+
+# Temporary files
+tmp/
+temp/
+*.tmp
