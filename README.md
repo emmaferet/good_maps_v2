@@ -315,6 +315,53 @@ Dans le cadre de l'évaluation académique, ce projet a suivi une **méthodologi
    * *Résilience Overpass Multi-Miroirs* : Suite aux indisponibilités constatées sur `overpass-api.de`, mise en place d'un système de *failover* automatique vers `openstreetmap.fr` et `kumi.systems`.
    * *Angular Signals* : Utilisation des Signals Angular 19 pour la réactivité d'état (favoris, historique, sélection de lieu), éliminant la complexité de bibliothèques tierces tout en garantissant des performances optimales.
 
+3. **Promp fourni par Gemini**
+
+/plan Tu es un Architecte Logiciel Senior et Développeur Fullstack Tech Lead. 
+Nous devons concevoir et développer de zéro l'application SaaS "Good Maps", une plateforme web cartographique dédiée au recensement et à la recommandation d'activités accessibles (PMR, handicaps sensoriels et cognitifs) connectée en direct aux données libres d'OpenStreetMap.
+
+Ce projet fait l'objet d'une évaluation académique stricte selon le barème suivant :
+1. Application fonctionnelle et fluide
+2. Méthodologie IA rigoureuse (validation étape par étape via /plan, journalisation des choix)
+3. Complétude et documentation exemplaire (README exhaustif, diagrammes d'architecture, guide de démarrage)
+4. Structure logicielle, maintenabilité et sécurité (Clean Architecture, validation des entrées, gestion CORS, rel="noopener noreferrer")
+5. Maîtrise de la stack technologique demandée
+6. Pratiques DevOps (dépôt Git propre, pipeline CI/CD GitHub Actions, Dockerisation)
+7. Rendu graphique haut de gamme (Design System moderne en SCSS, Responsive, Material/Glassmorphism, animations fluides)
+8. Bonus fonctionnels avancés : mémorisation des recherches récentes, système de favoris et recommandations intelligentes.
+
+=========================================
+CONTRAINTES TECHNIQUES STRICTES (STACK)
+=========================================
+- Structure du dépôt : Monorepo propre avec deux sous-dossiers :
+  - `frontend/` : Application Angular (dernière version stable, composants Standalone, HTML5 sémantique, SCSS moderne, TypeScript/JS).
+  - `backend/` : API REST Java Spring Boot (Spring Boot 3, Java 17 ou 21, Maven/Gradle, RestClient/WebClient pour OSM).
+- Données & Cartographie :
+  - Backend : Service intermédiaire proxy qui interroge l'API OpenStreetMap (Nominatim pour le géocodage et la recherche textuelle + Overpass API pour les POIs avec tags d'accessibilité `wheelchair=*`). Le backend normalise les données, filtre selon les critères et gère un cache pour respecter les quotas OSM.
+  - Frontend : Intégration cartographique interactive (Leaflet ou MapLibre GL) avec pastilles thématiques interactives et fiches descriptives contextuelles.
+- Sécurité :
+  - Configuration CORS stricte sur Spring Boot.
+  - Validation et assainissement des entrées utilisateur.
+  - Liens externes sécurisés (`rel="noopener noreferrer"`, restriction stricte aux schémas `https://`).
+- DevOps :
+  - Fichier `.gitignore` racine adapté aux environnements Java et Angular.
+  - Pipeline GitHub Actions `.github/workflows/ci.yml` exécutant le build et les tests du backend et du frontend.
+  - Fichier `docker-compose.yml` permettant de lancer l'ensemble de l'application en une seule commande.
+
+=========================================
+MÉTHODOLOGIE D'EXÉCUTION ATTENDUE
+=========================================
+Ne génère pas tout le code d'un coup. Crée un plan d'action détaillé découpé en jalons (Milestones) avec des points de contrôle pour que je valide chaque étape avant de passer à la suivante :
+
+- Étape 1 : Initialisation de l'arborescence, initialisation Git et configuration globale.
+- Étape 2 : Backend Java Spring Boot (Modèles DTO, Service Client OpenStreetMap, Controller REST, gestion des exceptions et tests unitaires JUnit).
+- Étape 3 : Frontend Angular (Initialisation du projet, configuration du Design System SCSS, formulaire de recherche d'activités avec filtres PMR).
+- Étape 4 : Intégration de la carte interactive et de la fiche descriptive détaillée (liens cliquables sécurisés vers OSM et sites officiels).
+- Étape 5 : Fonctionnalités Bonus (Mémorisation de l'historique de recherche en LocalStorage/Session, mise en favoris des lieux, calcul des recommandations).
+- Étape 6 : DevOps & CI/CD (GitHub Actions workflow, Dockerfile backend/frontend, docker-compose).
+- Étape 7 : Documentation de livraison (README.md complet prêt pour le correcteur, avec architecture, préprompts IA utilisés, manuel d'installation et capture/maquette).
+
+Présente-moi ton plan d'action initial dans un artefact et attends mon accord explicite pour débuter l'Étape 1.
 ---
 
 ## 👩‍💻 Auteure & Crédits
