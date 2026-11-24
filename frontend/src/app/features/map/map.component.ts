@@ -74,6 +74,11 @@ export class MapComponent implements OnInit, OnChanges, OnDestroy {
     });
 
     this.updateMarkers();
+
+    // Garantit le bon calcul des dimensions du conteneur Leaflet après le rendu initial
+    setTimeout(() => {
+      this.map?.invalidateSize();
+    }, 100);
   }
 
   private updateMarkers(): void {
