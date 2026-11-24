@@ -274,12 +274,9 @@ L'application est immédiatement accessible :
 Le fichier racine `package.json` fournit des scripts pratiques pour gérer le monorepo en toute simplicité :
 
 ```bash
-# 1. Lancer simultanément le Backend et le Frontend en tâche de fond :
-npm run dev
-
-# Ou lancer indépendamment dans deux terminaux séparés :
+# 1. Lancer le Backend et le Frontend dans deux terminaux séparés :
 npm run start:backend     # Lance Spring Boot sur http://localhost:8080
-npm run start:frontend    # Lance Angular sur http://localhost:4200
+npm run start:frontend    # Lance Angular sur http://localhost:4200 (alias : npm run dev)
 
 # 2. Exécuter la suite de tests unitaires et d'intégration :
 npm run test:backend      # 14 tests JUnit 5
