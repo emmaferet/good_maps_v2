@@ -265,8 +265,18 @@
 
 .radius-slider {
   width: 100%;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
   accent-color: #FF5A5F;
   cursor: pointer;
+
+  &:focus {
+    outline: none;
+    box-shadow: none;
+    background: transparent;
+  }
 }
 
 .radius-markers {
